@@ -32,3 +32,10 @@ func (repository *ResourceDatabaseRepository) DatabaseCommit() *gorm.DB {
 func (repository *ResourceDatabaseRepository) DatabaseRollback() *gorm.DB {
 	return repository.database.Rollback()
 }
+
+// GetNewUUID returns a new UUID
+func (repository *ResourceDatabaseRepository) GetNewUUID() string {
+	var newID string
+	repository.database.DB().QueryRow("SELECT UUID()", &newID)
+	return newID
+}

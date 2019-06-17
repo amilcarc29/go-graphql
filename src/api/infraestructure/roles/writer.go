@@ -23,6 +23,6 @@ func (writer *Writer) RegisterRoutes(basePath string) {
 
 	routerHandler := writer.container.RouterHandler()
 
-	routerHandler.HandleFunc("/resources", resourceHandler.PutResource).Methods("POST")
+	routerHandler.HandleFunc("/resources", resourceHandler.CreateResource).Methods("POST")
 	routerHandler.HandleFunc("/resources/{id}", resourceHandler.DeleteResource).Methods("DELETE")
 }

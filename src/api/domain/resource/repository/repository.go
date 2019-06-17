@@ -10,9 +10,9 @@ import (
 // ResourceRepository defines an interface
 type ResourceRepository interface {
 	GetResources() ([]entities.Resource, error)
-	GetResource(id uint64) (entities.Resource, error)
+	GetResource(id string) (entities.Resource, error)
 	PutResource(entities.Resource) error
-	DeleteResource(id uint64) error
+	DeleteResource(id string) error
 }
 
 // Repository defines a repository struct
@@ -21,8 +21,8 @@ type Repository struct {
 	*http.ResourceHTTPRepository
 }
 
-// NewRepository returns a new resource repository
-func NewRepository(container *dependencies.Container) ResourceRepository {
+// NewResourceRepository returns a new resource repository
+func NewResourceRepository(container *dependencies.Container) ResourceRepository {
 	return &Repository{
 		database.NewRepository(container),
 		http.NewRepository(container),

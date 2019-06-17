@@ -6,7 +6,7 @@ import "github.com/jinzhu/gorm"
 type Resource struct {
 	gorm.Model
 
-	ID          uint64   `json:"id"`
+	ID          string   `json:"id"`
 	Link        string   `json:"link"`
 	Name        string   `json:"name"`
 	Author      string   `json:"author"`
