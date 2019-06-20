@@ -36,6 +36,9 @@ func (repository *ResourceDatabaseRepository) DatabaseRollback() *gorm.DB {
 // GetNewUUID returns a new UUID
 func (repository *ResourceDatabaseRepository) GetNewUUID() string {
 	var newID string
-	repository.database.DB().QueryRow("SELECT UUID()", &newID)
+	row, _ := repository.database.DB().Query("SELECT UUID()")
+	for row.Next() {
+		row.Scan(&newID)
+	}
 	return newID
 }

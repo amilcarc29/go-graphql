@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"os"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 // Container defines a container for dependencies
@@ -18,12 +20,13 @@ type Container struct {
 func NewContainer() (*Container, error) {
 	db, err := gorm.Open(
 		"mysql",
-		fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8", os.Getenv("DBUsername"),
+		fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=true", os.Getenv("DBUsername"),
 			os.Getenv("DBPassword"), os.Getenv("DBHost"), os.Getenv("DBName")),
 	)
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("DB connected successfully.")
 
 	routerHandler := mux.NewRouter()
 

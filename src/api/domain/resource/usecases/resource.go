@@ -21,12 +21,12 @@ func (usecases *UseCases) GetResource(id string) (*entities.Resource, error) {
 }
 
 // CreateResource creates a new resource
-func (usecases *UseCases) CreateResource(resource entities.Resource) error {
-	err := usecases.resourceRepository.PutResource(resource)
+func (usecases *UseCases) CreateResource(resource entities.Resource) (uint, error) {
+	id, err := usecases.resourceRepository.PutResource(resource)
 	if err != nil {
-		return err
+		return 0, err
 	}
-	return nil
+	return id, nil
 }
 
 // DeleteResource deletes the resource

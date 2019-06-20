@@ -37,13 +37,19 @@ func (handler *ResourceHandler) CreateResource(w http.ResponseWriter, r *http.Re
 
 	var resource entities.Resource
 	json.NewDecoder(r.Body).Decode(&resource)
-	err := handler.usecases.CreateResource(resource)
+	newID, err := handler.usecases.CreateResource(resource)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	json.NewEncoder(w).Encode(&resource)
+	resourceIDResponse := struct {
+		ID uint `json:"id"`
+	}{
+		ID: newID,
+	}
+
+	json.NewEncoder(w).Encode(&resourceIDResponse)
 	w.WriteHeader(http.StatusCreated)
 }
 

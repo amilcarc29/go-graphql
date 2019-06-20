@@ -11,7 +11,7 @@ import (
 type ResourceRepository interface {
 	GetResources() ([]entities.Resource, error)
 	GetResource(id string) (entities.Resource, error)
-	PutResource(entities.Resource) error
+	PutResource(resource entities.Resource) (uint, error)
 	DeleteResource(id string) error
 }
 

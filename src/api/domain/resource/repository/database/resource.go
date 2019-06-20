@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 	"go-graphql/src/api/domain/resource/entities"
+	"strconv"
 )
 
 const (
@@ -21,22 +22,20 @@ func (repository *ResourceDatabaseRepository) GetResources() ([]entities.Resourc
 // GetResource returns the resource found
 func (repository *ResourceDatabaseRepository) GetResource(id string) (entities.Resource, error) {
 	var resource entities.Resource
-	err := repository.database.First(&resource, id).Error
-	if resource.ID == "" || err != nil {
+	idConverted, _ := strconv.Atoi(id)
+	err := repository.database.First(&resource, idConverted).Error
+	if resource.ID == 0 || err != nil {
 		return resource, fmt.Errorf(errResourceNotFound, id)
 	}
 	return resource, nil
 }
 
 // PutResource inserts a new resource
-func (repository *ResourceDatabaseRepository) PutResource(resource entities.Resource) error {
-	if resource.ID == "" {
-		resource.ID = repository.GetNewUUID()
-	}
+func (repository *ResourceDatabaseRepository) PutResource(resource entities.Resource) (uint, error) {
 	if err := repository.database.Create(&resource).Error; err != nil {
-		return err
+		return 0, err
 	}
-	return nil
+	return resource.ID, nil
 }
 
 // DeleteResource deletes a resource
